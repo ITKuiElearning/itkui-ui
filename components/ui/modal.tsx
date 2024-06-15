@@ -24,6 +24,7 @@ export const Modal: React.FC<ModalProps> = ({ title, description, isOpen, onClos
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
+        <div>{children}</div>
       </DialogContent>
     </Dialog>
   );
