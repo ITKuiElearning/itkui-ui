@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model store {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id(map: "flyway_schema_history_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+model keep_alive {
+  id     BigInt  @id @default(autoincrement())
+  name   String? @default("")
+  random String? @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+}
+
+model permission {
+  permission_id   Int               @unique(map: "unique_permission_id") @default(autoincrement())
+  permission_name String            @unique @db.VarChar(50)
+  role_permission role_permission[]
+}
+
+model role_permission {
+  role_id       Int
+  permission_id Int
+  permission    permission @relation(fields: [permission_id], references: [permission_id], onDelete: NoAction, onUpdate: NoAction)
+  roles         roles      @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([role_id, permission_id])
+}
+
+model roles {
+  role_id         Int               @unique(map: "unique_role_id") @default(autoincrement())
+  role_name       String            @unique @db.VarChar(50)
+  role_permission role_permission[]
+  users_roles     users_roles[]
+}
+
+model users {
+  user_id       Int           @unique(map: "unique_user_id") @default(autoincrement())
+  username      String        @unique(map: "unique_username") @db.VarChar(50)
+  password_hash String        @db.Char(64)
+  first_name    String        @db.VarChar(50)
+  last_name     String        @db.VarChar(50)
+  email         String        @unique(map: "unique_email") @db.VarChar(100)
+  is_active     Boolean       @default(true)
+  users_roles   users_roles[]
+}
+
+model users_roles {
+  user_id Int
+  role_id Int
+  roles   roles @relation(fields: [role_id], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
+  users   users @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([user_id, role_id])
+}
