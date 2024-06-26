@@ -9,12 +9,11 @@ import { Trash } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-interface SettingFormProps {
+interface SettingsFormProps {
   initialData: store;
-  name: 'name';
 }
 
 const formSchema = z.object({
@@ -23,14 +22,12 @@ const formSchema = z.object({
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-export const SettingForm: React.FC<SettingFormProps> = ({ initialData }) => {
+export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }: SettingsFormProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const form = useForm<SettingFormProps>({
+  const form = useForm<SettingsFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      initialData,
-    },
+    defaultValues: initialData,
   });
 
   const onSubmit = async (data: SettingsFormValues) => {
@@ -58,10 +55,14 @@ export const SettingForm: React.FC<SettingFormProps> = ({ initialData }) => {
                   <FormControl>
                     <Input disabled={loading} placeholder="Store name" {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
           </div>
+          <Button disabled={loading} className="ml-auto">
+            Save changes
+          </Button>
         </form>
       </Form>
     </>
