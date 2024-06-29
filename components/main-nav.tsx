@@ -11,7 +11,7 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
     {
       href: `/${params.storeId}`,
       label: 'Overview',
-      active: pathname === `/${params.storeId}/billboard`,
+      active: pathname === `/${params.storeId}`,
     },
     {
       href: `/${params.storeId}/settings`,
@@ -21,7 +21,7 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
     {
       href: `/${params.storeId}/billboards`,
       label: 'Billboards',
-      active: pathname === `/${params.storeId}/billboard`,
+      active: pathname === `/${params.storeId}/billboards`,
     },
   ];
   return (
@@ -30,7 +30,8 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
         <Link
           key={route.href}
           href={route.href}
-          className={cn('ml-4 text-sm font-medium transition-colors hover:text-primary')}
+          className={cn(`ml-4 text-sm font-medium transition-colors hover:text-primary 
+            ${route.active ? 'text-black dark:text-white' : 'text-muted-foreground'}`)}
         >
           {route.label}
         </Link>
