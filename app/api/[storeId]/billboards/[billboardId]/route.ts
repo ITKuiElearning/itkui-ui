@@ -70,7 +70,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
   }
 }
 
-export async function DELETE({ params }: { params: { storeId: string; billboardId: string } }) {
+export async function DELETE(req: Request, { params }: { params: { storeId: string; billboardId: string } }) {
   try {
     const { userId } = auth();
 
@@ -79,7 +79,7 @@ export async function DELETE({ params }: { params: { storeId: string; billboardI
     }
 
     if (!params.billboardId) {
-      return new NextResponse('Store ID is required', { status: 400 });
+      return new NextResponse('Billboard ID is required', { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({

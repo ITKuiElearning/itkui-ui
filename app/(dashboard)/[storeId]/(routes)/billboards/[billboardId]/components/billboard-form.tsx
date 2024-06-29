@@ -59,6 +59,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }: Bil
       router.refresh();
       router.push(`/${params.storeId}/billboards`);
       toast.success(toastMessage);
+      router.refresh();
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
@@ -71,8 +72,9 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }: Bil
       setLoading(true);
       await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
       router.refresh();
-      router.push('/');
+      router.push(`/${params.storeId}/billboards`);
       toast.success('Billboard deleted.');
+      router.refresh();
     } catch (error) {
       toast.error('Make sure you removed all categories using this billboard first.');
     } finally {
@@ -86,16 +88,18 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({ initialData }: Bil
       <AlertModal isOpen={open} onClose={() => setOpen(false)} onConfirm={onDelete} loading={loading} />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
-        <Button
-          disabled={loading}
-          variant="destructive"
-          size="icon"
-          onClick={() => {
-            setOpen(true);
-          }}
-        >
-          <Trash className="h-4 w-4" />
-        </Button>
+        {initialData && (
+          <Button
+            disabled={loading}
+            variant="destructive"
+            size="icon"
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        )}
       </div>
       <Separator />
       <Form {...form}>
