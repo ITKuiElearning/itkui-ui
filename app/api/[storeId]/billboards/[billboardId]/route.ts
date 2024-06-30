@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import prismadb from '@/lib/prismadb';
 
-export async function GET({ params }: { params: { billboardId: string } }) {
+export async function GET(req: Request, { params }: { params: { billboardId: string } }) {
   try {
     if (!params.billboardId) {
       return new NextResponse('Store ID is required', { status: 400 });
