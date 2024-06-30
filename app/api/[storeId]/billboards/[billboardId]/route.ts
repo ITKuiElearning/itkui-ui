@@ -31,6 +31,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 401 });
     }
+
     if (!label) {
       return new NextResponse('Label is required', { status: 400 });
     }
@@ -40,7 +41,7 @@ export async function PATCH(req: Request, { params }: { params: { storeId: strin
     }
 
     if (!params.billboardId) {
-      return new NextResponse('Buildboard ID is required', { status: 400 });
+      return new NextResponse('Billboard ID is required', { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
