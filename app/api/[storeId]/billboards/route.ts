@@ -12,6 +12,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
     if (!userId) {
       return new NextResponse('Unauthenticated', { status: 401 });
     }
+
     if (!label) {
       return new NextResponse('Label is required', { status: 400 });
     }
