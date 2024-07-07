@@ -5,7 +5,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app
 
 # Copy everything except node_modules
-COPY . . .node_modules
+COPY . .
 
 RUN ls -al
 
