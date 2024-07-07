@@ -9,7 +9,7 @@ COPY package*.json ./
 COPY ./prisma/schema.prisma ./prisma/schema.prisma
 
 # Install dependencies
-RUN yarn install --frozen-lockfile --schema schema.prisma
+RUN yarn install --frozen-lockfile --schema ./prisma/schema.prisma
 
 # Copy everything except node_modules
 COPY . . .node_modules
