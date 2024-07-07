@@ -15,16 +15,16 @@ RUN yarn install --frozen-lockfile --schema ./prisma/schema.prisma
 # Build the Next.js application
 RUN yarn build
 
+# Verify build output exists before copying (optional)
+RUN ls -al
+RUN ls -al /app
+RUN ls -al /app/out
+
 # Use a smaller Node.js image for production
 FROM node:18-alpine AS runner
 
 # Set working directory
 WORKDIR /app
-
-# Verify build output exists before copying (optional)
-RUN ls -al
-RUN ls -al /app
-RUN ls -al /app/out
 
 # Copy only the production build
 COPY --from=builder /app/out .
