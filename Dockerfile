@@ -4,15 +4,13 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and yarn.lock
-COPY package*.json ./
-COPY ./prisma/schema.prisma ./prisma/schema.prisma
+# Copy everything except node_modules
+COPY . . .node_modules
+
+RUN ls -al
 
 # Install dependencies
 RUN yarn install --frozen-lockfile --schema ./prisma/schema.prisma
-
-# Copy everything except node_modules
-COPY . . .node_modules
 
 # Build the Next.js application
 RUN yarn build
