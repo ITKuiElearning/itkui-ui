@@ -22,7 +22,9 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Verify build output exists before copying (optional)
-RUN ls -l /app/out  # Check if /app/out exists
+RUN ls -al
+RUN ls -al /app
+RUN ls -al /app/out
 
 # Copy only the production build
 COPY --from=builder /app/out .
