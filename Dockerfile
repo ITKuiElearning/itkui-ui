@@ -20,10 +20,11 @@ FROM node:18-alpine AS runner
 WORKDIR /app
 
 # Copy only the production build
-COPY --from=builder /app/out .
+COPY --from=builder /app .
 
 # Expose Next.js port
+ENV HOST 0.0.0.0
 EXPOSE 3000
 
 # Start the Next.js server
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
