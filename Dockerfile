@@ -19,6 +19,9 @@ FROM node:18-alpine AS runner
 # Set working directory
 WORKDIR /app
 
+# Export DB URL
+RUN export DATABASE_URL="$DATABASE_URL"
+
 # Copy only the production build
 COPY --from=builder /app .
 RUN npx prisma generate --schema ./prisma/schema.prisma
