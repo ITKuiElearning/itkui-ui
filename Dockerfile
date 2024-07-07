@@ -21,8 +21,8 @@ WORKDIR /app
 
 # Copy only the production build
 COPY --from=builder /app .
-RUN npx prisma generate
-RUN npx prisma db push
+RUN npx prisma generate --schema ./prisma/schema.prisma
+RUN npx prisma db push --schema ./prisma/schema.prisma
 
 # Expose Next.js port
 ENV HOST 0.0.0.0
