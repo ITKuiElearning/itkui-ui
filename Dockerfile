@@ -21,6 +21,7 @@ WORKDIR /app
 
 # Copy only the production build
 COPY --from=builder /app .
+CMD ["./prisma-migration.sh"]
 
 # Expose Next.js port
 ENV HOST 0.0.0.0
